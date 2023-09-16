@@ -1,0 +1,37 @@
+﻿@page "/"
+@using System.Threading
+
+<PageTitle>Index</PageTitle>
+
+<div class="crt">
+    <h1>@_termBuffer</h1>
+</div>
+
+@code {
+
+    private string _termBuffer { get; set; }
+    private string _welcomeString = "WELCOME TO YOUR PDC";
+    private int _welcomeStringCounter = 0;
+    private bool _firstRender = true;
+    
+    protected override void OnInitialized()
+    {
+        
+    }
+    
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_firstRender)
+        {
+            while (_welcomeStringCounter < _welcomeString.Count())
+            {
+                Thread.Sleep(50);
+                _termBuffer += _welcomeString[_welcomeStringCounter];
+                _welcomeStringCounter++;
+                StateHasChanged();
+            }
+            _firstRender = false;
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}
